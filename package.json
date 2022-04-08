@@ -1,0 +1,19 @@
+{
+  "name": "classrater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChrisGKennedy/ClassRater.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChrisGKennedy/ClassRater/issues"
+  },
+  "homepage": "https://github.com/ChrisGKennedy/ClassRater#readme"
+}
