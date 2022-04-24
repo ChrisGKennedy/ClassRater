@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 
-const MakePost = ({course_code}) => {
+const MakePost = ({course_code, type}) => {
 
     const [post, setPost] = useState("")
 
@@ -10,7 +10,7 @@ const MakePost = ({course_code}) => {
             const response = await fetch("http://localhost:5000/posts", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"post_body":post, "code":course_code, "post_type": false})
+                body: JSON.stringify({"post_body":post, "code":course_code, "post_type": type})
             });
 
             window.location = "/"
