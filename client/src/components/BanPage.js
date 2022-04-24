@@ -4,7 +4,7 @@ const BanPage = () => {
     return (
         <div>
           <h1>Ban</h1>
-          <div>Have some content</div>
+          <div>This is the ban page.</div>
         </div>
     );
 };

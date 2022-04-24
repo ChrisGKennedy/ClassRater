@@ -7,8 +7,8 @@ function Nav(){
             <u1 className = "nav-links">
                 <Link to = "/"> Home </Link>
                 <Link to = "/ban"> Ban </Link>
-                <Link to = "/page2"> Page2 </Link>
-                <Link to = "/page3"> Page3 </Link>
+                <Link to = "/reports"> Reports </Link>
+                <Link to = "/post_management"> Post Management </Link>
             </u1>
         </nav>
     );
