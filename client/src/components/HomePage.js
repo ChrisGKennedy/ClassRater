@@ -1,8 +1,14 @@
 import React, { Fragment } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import NavBar from "./NavBar.js";
 import SearchBar from './SearchBar.js'
 
 const HomePage = () => {
+	const navigate = useNavigate();
+
+	const searchHandler = (term) => {
+		navigate("/search?q=" + term)
+	}
 
 	return (
 		<Fragment>
@@ -14,7 +20,9 @@ const HomePage = () => {
 			<div className="d-flex align-items-center justify-content-center text-center">
 				<div className="col">
 					<h1>Search for Classes</h1>
-					<SearchBar />
+					<div className="mt-5">
+						<SearchBar callback={searchHandler} />
+					</div>
 				</div>
 			</div>
 		</Fragment>

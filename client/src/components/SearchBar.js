@@ -1,21 +1,23 @@
-import React, { Fragment } from "react";
-import { useParams } from 'react-router-dom';
+import React, { Fragment, useState } from "react";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const SearchBar = () => {
+function SearchBar({ callback }) {
 
-	const [searchParams, setSearchParams] = useParams();
+	// const [searchParams, setSearchParams] = useSearchParams("");
+	const [searchParams, setSearchParams] = useState("");
+	// const navigate = useNavigate();
 
-	const submitSearchForm = async e => {
+	const submitSearchForm = e => {
 		e.preventDefault();
-		// let formData = new FormData(e.target.value);
-		// let newCourse = formData.get("course");
-		// setSearchParams({course: newCourse});
-		console.log("submitted value " + searchParams);
+		// setSearchParams(e.target.value);
+		callback(searchParams);
+		// navigate("/search?q=" + searchParams);
+		console.log("submitted searchParams = " + searchParams);
 	};
 
 	return (
 		<Fragment>
-			<form className="d-flex mt-5" onSubmit={submitSearchForm}>
+			<form className="d-flex" onSubmit={submitSearchForm}>
 				<input
 					type="text"
 					className="form-control"
