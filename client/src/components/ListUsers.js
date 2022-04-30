@@ -1,19 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 
+import BanUser from "./BanUser";
+
 const ListUsers = () => {
 
     const [users, setUsers] = useState([]);
 
-    // updateBanStatus function
-
-    const updateBanStatus = async() => {
-        try{
-            
-        }catch(err){
-            console.error(err.message);
-        }
-    }
-
+    //get users
     const getUsers = async () => {
         try{
             const response = await fetch("http://localhost:5000/users");
@@ -37,8 +30,7 @@ const ListUsers = () => {
               <th>ID</th>
               <th>Email</th>
               <th>Banned?</th>
-              <th>BAN</th>
-              <th>UNBAN</th>
+              <th>Toggle Ban</th>
             </tr>
           </thead>
           <tbody>
@@ -48,14 +40,7 @@ const ListUsers = () => {
                     <td>{user.email}</td>
                     <td>{(user.banned).toString()}</td>
                     <td>
-                        <button className="btn btn-danger">
-                        BAN
-                        </button>
-                    </td>
-                    <td>
-                      <button className="btn btn-success">
-                        UNBAN
-                      </button>
+                        <BanUser user = {user}/>
                     </td>
                 </tr>
             ))}

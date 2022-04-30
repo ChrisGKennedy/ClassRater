@@ -29,6 +29,8 @@ const ListReports = () => {
               <th>Post ID</th>
               <th>Post Type</th>
               <th>Go To</th>
+              <th>Delete Flag</th>
+              <th>Delete Post and Flag</th>
             </tr>
           </thead>
           <tbody>
@@ -39,9 +41,19 @@ const ListReports = () => {
                         <td>{report.post_id}</td>
                         <td>{(report.post_type).toString()}</td>
                         <td>
-                        <button className="btn btn-outline-dark">
+                          <button className="btn btn-outline-dark">
                             Post
-                        </button>
+                          </button>
+                        </td>
+                        <td>
+                          <button className="btn btn-warning">
+                            Delete Flag
+                          </button>
+                        </td>
+                        <td>
+                          <button className="btn btn-danger">
+                            Delete Post and Flag
+                          </button>
                         </td>
                     </tr>
                 ))}
