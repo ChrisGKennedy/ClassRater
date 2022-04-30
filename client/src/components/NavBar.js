@@ -7,8 +7,8 @@ const NavBar = ({ searchCallback }) => {
 		<Fragment>
 			<nav className="d-flex my-3 mr-auto">
 				<Link className="mx-2" to="/">Home</Link>
-				<Link className="mx-2" to="/log-in">Log In</Link>
-				<Link className="mx-2" to="/create-account">Create Account</Link>
+				<Link className="mx-2" to="/login">Log In</Link>
+				<Link className="mx-2" to="/register">Create Account</Link>
 				<div className="w-50">
 					<SearchBar callback={searchCallback} />
 				</div>

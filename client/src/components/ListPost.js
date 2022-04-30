@@ -8,22 +8,24 @@ const ListPosts = ({code, auth}) => {
     const [type, setType] = useState(false);
 
     const getPosts = async(target) => {
-        try {
+        try {   
+                //console.log("here");
+                //console.log(type);
                 if(!type){
                     const response = await fetch(`http://localhost:5000/posts/descriptions/code${target}`, {
                         method: "GET"
                     });
-
                     const jsonData = await response.json();
                     setPosts(jsonData);
+                    console.log(jsonData);
                 }
                 else{
                     const response = await fetch(`http://localhost:5000/posts/reviews/code${target}`, {
                         method: "GET"
                     });
-
                     const jsonData = await response.json();
                     setPosts(jsonData);
+                    console.log(jsonData);
                 };
         } catch (err) {
             console.error(err.message);
@@ -32,10 +34,12 @@ const ListPosts = ({code, auth}) => {
 
     const showDesc = () => {
         setType(false);
+        console.log("desc");
     }
 
     const showReview = () => {
         setType(true);
+        console.log("review");
     }
 
     useEffect(() => {

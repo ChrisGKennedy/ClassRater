@@ -14,8 +14,8 @@ const HomePage = () => {
 		<Fragment>
 			<nav className="mt-3">
 				<Link className="mx-2" to="/">Home</Link>
-				<Link className="mx-2" to="/log-in">Log In</Link>
-				<Link className="mx-2" to="/create-account">Create Account</Link>
+				<Link className="mx-2" to="/login">Log In</Link>
+				<Link className="mx-2" to="/register">Create Account</Link>
 			</nav>
 			<div className="d-flex align-items-center justify-content-center text-center">
 				<div className="col">
