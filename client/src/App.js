@@ -4,12 +4,14 @@ import './App.css';
 import CourseText from "./components/CourseText";
 import ListPosts from "./components/ListPost";
 import MakePost from "./components/MakePost";
+import DescriptionPage from "./components/DescriptionPage";
 
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 
-import { BrowserRouter as Router, Routes, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { StaticRouter } from "react-router-dom/server"
 
 var testcode = "ART-4252"
 
@@ -45,6 +47,26 @@ function App() {
 
   return (
     <Fragment>
+      <Router>
+          <Routes>
+            <Route path="/" element={<h1>Home</h1>} />
+            <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth}/> : <Navigate to="/dashboard" />} />
+            <Route path="/register" element={!isAuthenticated ? <Register setAuth={setAuth}/> : <Navigate to="/dashboard" /> } />
+            <Route path="/dashboard" element={isAuthenticated ? <Dashboard setAuth={setAuth}/> : <Navigate to="/login" /> } />
+            <Route path="/description" element={
+                <div>
+                  <DescriptionPage code={testcode} auth={isAuthenticated}/>
+                </div>} />
+            <Route path="*" element = {<h1>404</h1>} />
+          </Routes>
+      </Router>
+  </Fragment>
+    
+  );
+}
+
+/*
+  <Fragment>
       <div className="container">
           { isAuthenticated 
             ? <Dashboard setAuth={setAuth} />
@@ -57,9 +79,7 @@ function App() {
           <ListPosts code={testcode} />
       </div>
     </Fragment>
-    
-  );
-}
+*/
 
 /*
   <Fragment>
@@ -75,7 +95,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </Fragment>
+  </Fragment>
 */
 
 export default App;

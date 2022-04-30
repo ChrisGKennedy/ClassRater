@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
+import FlagButton from "./FlagButton";
 
 import MakePost from "./MakePost";
 
-var type = false;
-
-const ListPosts = ({code}) => {
+const ListPosts = ({code, auth}) => {
     const [posts, setPosts] = useState([]);
+    const [type, setType] = useState(false);
 
     const getPosts = async(target) => {
         try {
@@ -31,20 +31,16 @@ const ListPosts = ({code}) => {
     }
 
     const showDesc = () => {
-        type = false;
-
-        getPosts(code);
+        setType(false);
     }
 
     const showReview = () => {
-        type = true;
-
-        getPosts(code);
+        setType(true);
     }
 
     useEffect(() => {
         getPosts(code);
-    }, []);
+    }, [type]);
 
     return(
         <Fragment>
@@ -56,26 +52,60 @@ const ListPosts = ({code}) => {
             </button>
 
             {" "}
-            <table className="table mt-5 text-center">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
+            {auth ?
+                <div>
+                    <table className="table mt-5 text-center">
+                        <thead>
+                            <tr>
+                                <th>Flag</th>
+                                <th>Professor</th>
+                                <th>Description</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
 
-                <tbody>
-                    {posts.map(post => (
-                        <tr>
-                            <td>{post.post_body}</td>
-                            <td>{post.rating}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <MakePost course_code={code} type = {type} />
+                        <tbody>
+                            {posts.map(post => (
+                                <tr key={post.post_id}>
+                                    <td>
+                                        <FlagButton post_id={post.post_id} type={type} />
+                                    </td>
+                                    <td>{post.professor}</td>
+                                    <td>{post.post_body}</td>
+                                    <td>{post.rating}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <MakePost course_code={code} type={type} auth={auth} />
+                </div>
+            :
+                <div>
+                    <table className="table mt-5 text-center">
+                        <thead>
+                            <tr>
+                                <th>Professor</th>
+                                <th>Description</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {posts.map(post => (
+                                <tr key={post.post_id}>
+                                    <td>{post.professor}</td>
+                                    <td>{post.post_body}</td>
+                                    <td>{post.rating}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            }
         </Fragment>
     );
 };
 
 export default ListPosts;
+
+//<FlagButton post={post.post_id} type={type} />
