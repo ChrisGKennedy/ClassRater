@@ -33,7 +33,6 @@ CREATE TABLE posts (
     rating integer NOT NULL,
     user_id uuid NOT NULL,
     post_type boolean NOT NULL,
-    FOREIGN KEY (professor_id) REFERENCES professor(professor_id),
     FOREIGN KEY (code) REFERENCES courses(code),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
