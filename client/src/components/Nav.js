@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 function Nav(){
     return (
-        <nav>
-            <u1 className = "nav-links">
-                <Link to = "/"> Home </Link>
-                <Link to = "/ban"> Ban </Link>
-                <Link to = "/reports"> Reports </Link>
-                <Link to = "/post_management"> Post Management </Link>
-            </u1>
-        </nav>
+        <Fragment>
+            <div>
+                <u1 className = "nav-links">
+                    <button className = "btn btn-outline-dark">
+                        <Link to = "/"> Home </Link>
+                    </button>
+                    <button className = "btn btn-outline-dark">
+                        <Link to = "/ban"> Ban </Link>
+                    </button>
+                    <button className = "btn btn-outline-dark">
+                        <Link to = "/reports"> Reports </Link>
+                    </button>
+                    <button className = "btn btn-outline-dark">
+                        <Link to = "/post_management"> Post Management </Link>
+                    </button>
+                </u1>
+            </div>
+        </Fragment>
     );
 }
 
 export default Nav;
-
-/*
-<Link to = "/"> Home </Link>
-<Link to = "/ban"> Ban </Link>
-<Link to = "/page1"> Page2 </Link>
-<Link to = "/page2"> Page3 </Link>
-*/

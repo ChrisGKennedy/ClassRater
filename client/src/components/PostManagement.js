@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const PostManagement = () => {
     return (
-        <div>
-          <h1>Post Management</h1>
-          <div>This is the post management page.</div>
+        <div className = "container">
+          <h1 className = "text-center mt-5">Post Management Page</h1>
+          <div className = "text-center mt-5">This is where you can ban users.</div>
         </div>
     );
 };

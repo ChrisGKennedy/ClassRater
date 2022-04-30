@@ -19,7 +19,7 @@ function App() {
           <Route path = "/ban" exact component={BanPage}/>
           <Route path = "/reports" exact component={ReportsPage}/>
           <Route path = "/post_management" exact component={PostManagement}/>
-        </Switch>   
+        </Switch>
       </div>
     </Router>
   );
