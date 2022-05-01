@@ -22,7 +22,7 @@ CREATE TABLE admin (
     canban boolean NOT NULL,
     candelete boolean NOT NULL,
     canaddadmin boolean NOT NULL,
-    FOREIGN KEY (admin_id) REFERENCES users(user_id)
+    FOREIGN KEY (admin_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE posts (
@@ -33,8 +33,8 @@ CREATE TABLE posts (
     rating integer NOT NULL,
     user_id uuid NOT NULL,
     post_type boolean NOT NULL,
-    FOREIGN KEY (code) REFERENCES courses(code),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (code) REFERENCES courses(code) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 --type for user_id will change form integer to uuid once authentication is set up.
 
@@ -44,13 +44,13 @@ CREATE TABLE votes (
     post_id integer NOT NULL,
     vote boolean NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES posts(post_id)
+    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
 );
 
 CREATE TABLE flags (
     flag_id SERIAL PRIMARY KEY,
     reporter_id uuid NOT NULL,
     post_id integer NOT NULL,
-    FOREIGN KEY (reporter_id) REFERENCES users(user_id),
-    FOREIGN KEY (post_id) REFERENCES posts(post_id)
+    FOREIGN KEY (reporter_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
 );
