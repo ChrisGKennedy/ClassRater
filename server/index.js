@@ -86,6 +86,17 @@ app.get("/posts", async(req, res) => {
     }
 });
 
+app.get("/posts/:id", async(req, res) => {
+    try {
+        const response = await pool.query("SELECT * FROM posts WHERE post_id = $1",
+            [req.params.id]);
+
+        res.json(response.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 app.get("/posts/descriptions/code:code", async (req, res) => {
     try {
         const { code } = req.params;
@@ -129,7 +140,51 @@ app.put("/posts/:id", async(req, res) => {
     } catch (err) {
         console.error(err.message);
     }
-})
+});
+
+app.put("/posts/increment/:id", async(req, res) => {
+    try {
+        const updaterating = await pool.query("UPDATE posts SET rating = rating + 1 WHERE post_id = $1",
+            [req.params.id]);
+
+        res.json("rating was incremented by 1");
+    } catch (err) {
+        console.log(err.message, req.params.id);
+    }
+});
+
+app.put("/posts/decrement/:id", async(req, res) => {
+    try {
+        const updaterating = await pool.query("UPDATE posts SET rating = rating - 1 WHERE post_id = $1",
+            [req.params.id]);
+
+        res.json("rating was decremented by 1");
+    } catch (err) {
+        console.log(err.message, req.params.id);
+    }
+});
+
+app.put("/posts/increment2/:id", async(req, res) => {
+    try {
+        const updaterating = await pool.query("UPDATE posts SET rating = rating + 2 WHERE post_id = $1",
+            [req.params.id]);
+
+        res.json("rating was incremented by 2");
+    } catch (err) {
+        console.log(err.message, req.params.id);
+    }
+});
+
+app.put("/posts/decrement2/:id", async(req, res) => {
+    try {
+        const updaterating = await pool.query("UPDATE posts SET rating = rating - 2 WHERE post_id = $1",
+            [req.params.id]);
+
+        res.json("rating was decremented by 2");
+    } catch (err) {
+        console.log(err.message, req.params.id);
+    }
+});
 
 app.use("/dashboard", require("./routes/dashboard"));
 
@@ -172,6 +227,72 @@ app.delete("/flags/:flag_id", async(req,res) => {
         const deleteFlag = await pool.query("DELETE FROM flags WHERE flag_id = $1", [id]);
 
         res.json("flag was deleted");
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.post("/votes", async(req, res) => {
+    try {
+        const newVote = await pool.query("INSERT INTO votes (user_id, post_id, vote) VALUES ($1,$2,$3) RETURNING *",
+            [req.body.user_id, req.body.post_id, req.body.vote]);
+
+        res.json(newVote.rows[0]);
+        console.log(req.body);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.get("/votes", async(req, res) => {
+    try {
+        const response = await pool.query("SELECT * FROM votes");
+
+        res.json(response.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.get("/votes/:id", async(req, res) => {
+    try {
+        const response = await pool.query("SELECT * FROM votes WHERE vote_id = $1", 
+            [req.params.id]);
+
+        res.json(response.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.get("/votes/:post_id/:user_id", async(req,res) => {
+    try {
+        const response = await pool.query("SELECT * FROM votes WHERE post_id = $1 AND user_id = $2", 
+        [req.params.post_id, req.params.user_id]);
+
+        res.json(response.rows[0]);
+    } catch (err) {
+        console.error(err.message)
+    }
+});
+
+app.put("/votes/:id", async(req, res) => {
+    try {
+        const response = await pool.query("UPDATE votes SET vote = $1 WHERE vote_id = $2",
+            [req.body.vote, req.params.id]);
+
+        res.json("vote was updated");
+    } catch (err) {
+        console.error(err.message)
+    }
+});
+
+app.delete("/votes/:id", async(req, res) => {
+    try {
+        const response = await pool.query("DELETE FROM votes WHERE vote_id = $1", 
+            [req.params.id]);
+
+        res.json("vote was deleted");
     } catch (err) {
         console.error(err.message);
     }

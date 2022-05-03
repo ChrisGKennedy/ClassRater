@@ -1,5 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
+
 import FlagButton from "./FlagButton";
+import Voting from "./Voting";
 
 import MakePost from "./MakePost";
 
@@ -7,25 +9,24 @@ const ListPosts = ({code, auth}) => {
     const [posts, setPosts] = useState([]);
     const [type, setType] = useState(false);
 
+
     const getPosts = async(target) => {
-        try {   
-                //console.log("here");
-                //console.log(type);
+        try {
                 if(!type){
                     const response = await fetch(`http://localhost:5000/posts/descriptions/code${target}`, {
                         method: "GET"
                     });
+
                     const jsonData = await response.json();
                     setPosts(jsonData);
-                    console.log(jsonData);
                 }
                 else{
                     const response = await fetch(`http://localhost:5000/posts/reviews/code${target}`, {
                         method: "GET"
                     });
+
                     const jsonData = await response.json();
                     setPosts(jsonData);
-                    console.log(jsonData);
                 };
         } catch (err) {
             console.error(err.message);
@@ -34,17 +35,15 @@ const ListPosts = ({code, auth}) => {
 
     const showDesc = () => {
         setType(false);
-        console.log("desc");
     }
 
     const showReview = () => {
         setType(true);
-        console.log("review");
     }
 
     useEffect(() => {
         getPosts(code);
-    }, [type]);
+    }, [type, posts]);
 
     return(
         <Fragment>
@@ -77,6 +76,7 @@ const ListPosts = ({code, auth}) => {
                                     <td>{post.professor}</td>
                                     <td>{post.post_body}</td>
                                     <td>{post.rating}</td>
+                                    <td>{<Voting post_id={post.post_id} code={code} type={type} setPosts={setPosts} />}</td>
                                 </tr>
                             ))}
                         </tbody>
