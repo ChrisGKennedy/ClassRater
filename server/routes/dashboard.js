@@ -7,7 +7,7 @@ router.get("/", authorization, async (req, res) => {
         
         //res.json(req.user);
 
-        const user = await pool.query("SELECT email, banned FROM users WHERE user_id = $1", [req.user]);
+        const user = await pool.query("SELECT user_id, email, banned FROM users WHERE user_id = $1", [req.user]);
 
         res.json(user.rows[0]);
     } catch (err) {

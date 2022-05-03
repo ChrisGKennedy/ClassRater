@@ -1,11 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
+
 import FlagButton from "./FlagButton";
+import Voting from "./Voting";
 
 import MakePost from "./MakePost";
 
 const ListPosts = ({code, auth}) => {
     const [posts, setPosts] = useState([]);
     const [type, setType] = useState(false);
+
 
     const getPosts = async(target) => {
         try {
@@ -40,7 +43,7 @@ const ListPosts = ({code, auth}) => {
 
     useEffect(() => {
         getPosts(code);
-    }, [type]);
+    }, [type, posts]);
 
     return(
         <Fragment>
@@ -73,6 +76,7 @@ const ListPosts = ({code, auth}) => {
                                     <td>{post.professor}</td>
                                     <td>{post.post_body}</td>
                                     <td>{post.rating}</td>
+                                    <td>{<Voting post_id={post.post_id} code={code} type={type} setPosts={setPosts} />}</td>
                                 </tr>
                             ))}
                         </tbody>
