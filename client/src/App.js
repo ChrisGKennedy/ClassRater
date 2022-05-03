@@ -13,7 +13,7 @@ import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server"
 
-var testcode = "ART-4252"
+var testcode = ""
 
 
 
