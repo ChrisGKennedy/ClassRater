@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import NavBar from "./NavBar";
 
 const SearchResults = () => { 
@@ -14,30 +14,49 @@ const SearchResults = () => {
     }
 
     //create const for query
-    
+    const queryParams = new URLSearchParams(window.location.search);
+    const query = queryParams.get('q');
 
 //fetch function with catch
-    const onSubmitForm = async (e) => {
-        e.preventDefault();
-        try {
-            console.log(q);  //print query to terminal
-          const response = await fetch(
-                //url to the database or endpoint !!FILL IN!!
-                //"http://localhost:5000/results"
-                `http://localhost:5000/search/?q=${q}`
-            );
-            //.then(response => await response.json())
-            //.then(json => setResults(json));
-            const jsonData = await response.json();
-            setResults(jsonData);
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
+    // const onSubmitForm = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         console.log(q);  //print query to terminal
+    //       const response = await fetch(
+    //             //url to the database or endpoint !!FILL IN!!
+    //             //"http://localhost:5000/results"
+    //             `http://localhost:5000/search/${q}`
+    //         );
+    //         //.then(response => await response.json())
+    //         //.then(json => setResults(json));
+    //         const jsonData = await response.json();
+    //         setResults(jsonData);
+    //     } catch (err) {
+    //         console.log(err.message);
+    //     }
+    // };
 
     useEffect(() => {
-        setQ();
-    }, []);
+        const onSubmitForm = async () => {
+            try {
+                //grab query from URL
+                const queryParams = new URLSearchParams(window.location.search);
+                const query = queryParams.get('q');
+                //Activate route
+              const response = await fetch(
+                    //url to the database or endpoint !!FILL IN!!
+                    `http://localhost:5000/search${query}`
+                );
+                //set res to the result of the search
+                const jsonData = await response.json();
+                setResults(jsonData);
+
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+        onSubmitForm();
+    });
 
     //returns all rows matching query, regardless of column
     // function search(rows) {
@@ -66,9 +85,9 @@ const SearchResults = () => {
                         </tr>
                     </thead>
                     {result.map((res) => (
-                        <tr key={res.name}>
-                            <td>{res.name}</td>
-                            <td>Link</td>
+                        <tr key={res.code}>
+                            <td>{res.course_name}</td>
+                            <td><Link to={"/course/"+res.code}>Link</Link></td>
                         </tr>
                     ))}
                 </table>
