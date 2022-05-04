@@ -56,7 +56,7 @@ const SearchResults = () => {
             }
         };
         onSubmitForm();
-    });
+    },[query]);
 
     //returns all rows matching query, regardless of column
     // function search(rows) {
@@ -87,7 +87,7 @@ const SearchResults = () => {
                     {result.map((res) => (
                         <tr key={res.code}>
                             <td>{res.course_name}</td>
-                            <td><Link to={"/course/"+res.code}>Link</Link></td>
+                            <td><Link to={"/description?code="+res.code}>Link</Link></td>
                         </tr>
                     ))}
                 </table>

@@ -16,6 +16,7 @@ app.get("/search:query", async (req, res) =>  {
 	try {
 			const {query} = req.params;
 			console.log(query);
+            console.log("query being submitted!")
 			const searchResults = await pool.query(
 					"SELECT * FROM courses WHERE course_name LIKE $1",
 					["%" + query + "%"]
