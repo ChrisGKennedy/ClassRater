@@ -7,7 +7,7 @@ function Nav(){
             <div>
                 <div className = "nav-links">
                     <button className = "btn btn-outline-dark">
-                        <Link to = "/"> Admin Home </Link>
+                        <Link to = "/admin"> Admin Home </Link>
                     </button>
                     <button className = "btn btn-outline-dark">
                         <Link to = "/ban"> Ban </Link>

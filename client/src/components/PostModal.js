@@ -7,7 +7,9 @@ const PostModal = ( { r } ) => {
 
     const getPost = async () => {
         try{
-            const response = await fetch(`http://localhost:5000/posts/${r.post_id}`);
+            const response = await fetch(`http://localhost:5000/posts/${r.post_id}`, {
+                method: "GET"
+            });
             const jsonData = await response.json();
 
             setPost(jsonData);
@@ -44,11 +46,7 @@ const PostModal = ( { r } ) => {
               </div>
 
               <div className = "modal-body">
-                  {post.map(p => (
-                      <div key={p.post_id}>
-                          {p.post_body}
-                      </div>
-                  ))}
+                  {post.post_body}
               </div>
 
               <div className="modal-footer">

@@ -1,18 +1,3 @@
-CREATE DATABASE dummycosb;
-
-CREATE TABLE courses (
-    code varchar(9),
-    course_name varchar,
-    description varchar
-);
-
-CREATE TABLE descriptions (
-    post_id SERIAL PRIMARY KEY,
-    desc_body varchar,
-    rating integer NOT NULL,
-    code varchar(9)
-);
-
 CREATE DATABASE cosb;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -36,6 +21,8 @@ CREATE TABLE courses (
     course_name varchar NOT NULL,
     description varchar NOT NULL
 );
+
+COPY courses(code, course_name, description) FROM '' DELIMITER ',' CSV HEADER;
 
 CREATE TABLE posts (
     post_id SERIAL PRIMARY KEY,
