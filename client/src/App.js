@@ -5,6 +5,7 @@ import CourseText from "./components/CourseText";
 import ListPosts from "./components/ListPost";
 import MakePost from "./components/MakePost";
 import DescriptionPage from "./components/DescriptionPage";
+import HomePage from "./components/HomePage";
 
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -49,7 +50,7 @@ function App() {
     <Fragment>
       <Router>
           <Routes>
-            <Route path="/" element={<h1>Home</h1>} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth}/> : <Navigate to="/dashboard" />} />
             <Route path="/register" element={!isAuthenticated ? <Register setAuth={setAuth}/> : <Navigate to="/dashboard" /> } />
             <Route path="/dashboard" element={isAuthenticated ? <Dashboard setAuth={setAuth}/> : <Navigate to="/login" /> } />
