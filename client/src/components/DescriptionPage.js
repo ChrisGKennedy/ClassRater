@@ -6,7 +6,7 @@ import CourseText from "./CourseText";
 import ListPosts from "./ListPost";
 import NavBar from "./NavBar";
 
-const DescriptionPage = ({code, auth}) => {
+const DescriptionPage = ({auth}) => {
 
     const [searchParams, setSearchParams] = useSearchParams("");
     const searchHandler = term => {

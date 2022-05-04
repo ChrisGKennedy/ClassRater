@@ -11,9 +11,10 @@ import Dashboard from "./components/Dashboard";
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-var testcode = ""
-
-
+import BanPage from './components/BanPage';
+import ReportsPage from './components/Reports';
+import AdminHomePage from './components/AdminHomePage';
+import PostManagement from './components/PostManagement';
 
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
@@ -54,8 +55,12 @@ function App() {
             <Route path="/search" element={<SearchResults />} />
             <Route path="/description" element={
                 <div>
-                  <DescriptionPage code={testcode} auth={isAuthenticated}/>
+                  <DescriptionPage auth={isAuthenticated}/>
                 </div>} />
+            <Route path = "/admin" element={<AdminHomePage/>}/>
+            <Route path = "/ban" element={<BanPage/>}/>
+            <Route path = "/reports" element={<ReportsPage/>}/>
+            <Route path = "/post_management" element={<PostManagement/>}/>
             <Route path="*" element = {<h1>404</h1>} />
           </Routes>
       </Router>
