@@ -16,7 +16,6 @@ const MakePost = ({course_code, type, auth}) => {
                 body: JSON.stringify({"post_body":post, "code":course_code, "post_type": type, "user_id": user.user_id, "professor": prof})
             });
 
-            window.location = "/description"
         } catch (err) {
             console.error(err.message);
         }

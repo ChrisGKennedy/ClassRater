@@ -7,7 +7,7 @@ const HomePage = () => {
 	const navigate = useNavigate();
 
 	const searchHandler = (term) => {
-		navigate("/search?q=" + term)
+		navigate("/description?code=" + term)
 	}
 
 	return (
