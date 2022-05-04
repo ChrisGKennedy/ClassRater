@@ -18,11 +18,11 @@ CREATE TABLE users (
 );
 
 CREATE TABLE admin (
-    admin_id uuid NOT NULL,
+    user_id uuid NOT NULL,
     canban boolean NOT NULL,
     candelete boolean NOT NULL,
     canaddadmin boolean NOT NULL,
-    FOREIGN KEY (admin_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE posts (
@@ -49,8 +49,9 @@ CREATE TABLE votes (
 
 CREATE TABLE flags (
     flag_id SERIAL PRIMARY KEY,
-    reporter_id uuid NOT NULL,
+    user_id uuid NOT NULL,
     post_id integer NOT NULL,
-    FOREIGN KEY (reporter_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    post_type boolean NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
 );

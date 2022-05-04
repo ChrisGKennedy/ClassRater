@@ -10,7 +10,7 @@ const PostManagement = () => {
     const navigate = useNavigate();
 
 	const searchHandler = (term) => {
-		navigate("/description?code=" + term)
+		navigate("/search?q=" + term)
 	}
 
     return (

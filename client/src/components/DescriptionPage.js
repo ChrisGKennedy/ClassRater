@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 import CourseText from "./CourseText";
@@ -8,10 +8,11 @@ import NavBar from "./NavBar";
 
 const DescriptionPage = ({auth}) => {
 
-    const [searchParams, setSearchParams] = useSearchParams("");
-    const searchHandler = term => {
-        setSearchParams({'code': term});
-    }
+    const navigate = useNavigate();
+
+	const searchHandler = (term) => {
+		navigate("/search?q=" + term)
+	}
 
     const queryParams = new URLSearchParams(window.location.search);
     const course_code = queryParams.get("code")

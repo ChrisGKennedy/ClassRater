@@ -10,7 +10,7 @@ const BanPage = () => {
     const navigate = useNavigate();
 
 	const searchHandler = (term) => {
-		navigate("/description?code=" + term)
+		navigate("/search?q=" + term)
 	}
     return (
         <div className = "container">
