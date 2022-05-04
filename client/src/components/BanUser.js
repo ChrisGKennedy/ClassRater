@@ -4,6 +4,10 @@ const BanUser = ({ user }) => {
     
     const [users, setUsers] = useState(user.banned);
     
+    // This simply updates the ban status
+    // Ban is boolean value, so this function simply inverts it
+    // Takes the info from the given user and puts a new user with the same id
+    // and simply updates the ban status
     const updateStatusBanned = async e => {
         e.preventDefault();
         try{
@@ -21,6 +25,9 @@ const BanUser = ({ user }) => {
             console.error(err.message);
         }
     }
+
+    // Returns the button that uses this update status
+    // The button just updates the ban status onClick
 
     return <Fragment>
         <button 
