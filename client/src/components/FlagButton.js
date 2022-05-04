@@ -12,6 +12,8 @@ const FlagButton = ( {post_id, type} ) => {
                 headers: {token : localStorage.token}
             });
             const userData = await respone.json();
+
+            console.log(userData);
             
             setUser(userData);
 

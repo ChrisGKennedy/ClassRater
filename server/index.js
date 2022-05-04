@@ -126,7 +126,7 @@ app.put("/posts/:id", async(req, res) => {
     } catch (err) {
         console.error(err.message);
     }
-})
+});
 
 app.put("/posts/increment/:id", async(req, res) => {
     try {
