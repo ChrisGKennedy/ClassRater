@@ -10,6 +10,16 @@ app.listen(5000, () => {
     console.log("server has started on port 5000");
 });
 
+app.get("/users", async(req, res) => {
+    try{
+        const allUsers = await pool.query("SELECT * FROM users");
+        res.json(allUsers.rows);
+    }catch (err){
+        console.error(err.message);
+    }
+});
+
+
 app.post("/users", async(req, res) => {
     try{
         const { email } = req.body.email;
@@ -21,15 +31,6 @@ app.post("/users", async(req, res) => {
 
         res.json(newUser.rows[0]);
     }catch(err){
-        console.error(err.message);
-    }
-});
-
-app.get("/users", async(req, res) => {
-    try{
-        const allUsers = await pool.query("SELECT * FROM users");
-        res.json(allUsers.rows);
-    }catch (err){
         console.error(err.message);
     }
 });
@@ -74,4 +75,47 @@ app.get("/flags", async(req, res) => {
     }
 });
 
+app.delete("/flags/:id", async(req, res) =>{
+    try{
+        const { id } = req.params;
+        const deletFlags = await pool.query("DELETE FROM flags WHERE flag_id = $1", [id]);
+
+        res.json("flag was deleted");
+    }catch (err){
+        console.error(err.message);
+    }
+});
+
+app.get("/posts/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const body = await pool.query("SELECT * FROM posts WHERE post_id = $1", [id]);
+
+        res.json(body.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.delete("/posts/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletePost = await pool.query("DELETE FROM posts WHERE post_id = $1", [id]);
+
+        res.json("post was deleted");
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+
+app.get("/posts", async (req, res) => {
+    try {
+        const allPosts = await pool.query("SELECT * FROM posts");
+
+        res.json(allPosts.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
 

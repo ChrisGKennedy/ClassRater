@@ -1,8 +1,23 @@
 import React, { Fragment, useEffect, useState } from "react";
 
+import PostModal from "./PostModal";
+
 const ListReports = () => {
 
     const [reports, setReports] = useState([]);
+
+    const deleteReport = async id => {
+        try{
+            const deleteReport = await fetch(`http://localhost:5000/flags/${id}`, {
+                method: "DELETE"
+            });
+
+            setReports(reports.filter(r => r.flag_id !== id));
+            window.location = "/reports";
+        }catch (err){
+            console.error(err.message);
+        }
+    };
 
     const getReports = async () => {
         try{
@@ -14,6 +29,7 @@ const ListReports = () => {
             console.error(err.message);
         }
     };
+
 
     useEffect(() => {
         getReports();
@@ -28,9 +44,8 @@ const ListReports = () => {
               <th>User ID</th>
               <th>Post ID</th>
               <th>Post Type</th>
-              <th>Go To</th>
+              <th>Link</th>
               <th>Delete Flag</th>
-              <th>Delete Post and Flag</th>
             </tr>
           </thead>
           <tbody>
@@ -39,21 +54,17 @@ const ListReports = () => {
                         <td>{report.flag_id}</td>
                         <td>{report.user_id}</td>
                         <td>{report.post_id}</td>
-                        <td>{(report.post_type).toString()}</td>
+                        <td>{(report.post_type) ? "Review":"Description" }</td>
                         <td>
-                          <button className="btn btn-outline-dark">
-                            Post
-                          </button>
+                          <PostModal r = {report}/>
                         </td>
                         <td>
-                          <button className="btn btn-warning">
+                        <button 
+                            className="btn btn-danger" 
+                            onClick = {() => deleteReport(report.flag_id)}
+                        >
                             Delete Flag
-                          </button>
-                        </td>
-                        <td>
-                          <button className="btn btn-danger">
-                            Delete Post and Flag
-                          </button>
+                        </button>
                         </td>
                     </tr>
                 ))}

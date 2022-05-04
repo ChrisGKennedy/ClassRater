@@ -29,7 +29,7 @@ const ListUsers = () => {
             <tr>
               <th>ID</th>
               <th>Email</th>
-              <th>Banned?</th>
+              <th>Status</th>
               <th>Toggle Ban</th>
             </tr>
           </thead>
@@ -38,7 +38,7 @@ const ListUsers = () => {
                 <tr key={user.user_id}>
                     <td>{user.user_id}</td>
                     <td>{user.email}</td>
-                    <td>{(user.banned).toString()}</td>
+                    <td>{(user.banned) ? "Banned":"Unbanned"}</td>
                     <td>
                         <BanUser user = {user}/>
                     </td>

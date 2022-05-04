@@ -5,7 +5,7 @@ function Nav(){
     return (
         <Fragment>
             <div>
-                <u1 className = "nav-links">
+                <div className = "nav-links">
                     <button className = "btn btn-outline-dark">
                         <Link to = "/"> Home </Link>
                     </button>
@@ -18,7 +18,7 @@ function Nav(){
                     <button className = "btn btn-outline-dark">
                         <Link to = "/post_management"> Post Management </Link>
                     </button>
-                </u1>
+                </div>
             </div>
         </Fragment>
     );
