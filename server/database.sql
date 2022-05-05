@@ -47,7 +47,6 @@ CREATE TABLE admin (
     canaddadmin boolean NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-<<<<<<< HEAD
 -- canban:
     -- if true -> admin user can ban registered users
     -- if false -> admin user cannot ban registered users
@@ -57,8 +56,6 @@ CREATE TABLE admin (
 -- canaddadmin:
     -- if true -> admin user can add other registered user as admin or remove other admin user
     -- if false -> admin user cannnot add other registered user as admin or remove other admin user
-=======
->>>>>>> 39b89d41f86557b7d8a4eff668845d3ad371fc54
 
 CREATE TABLE posts (
     post_id SERIAL PRIMARY KEY,
@@ -83,12 +80,9 @@ CREATE TABLE votes (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
 );
-<<<<<<< HEAD
 -- vote
     -- if false -> the vote is an upvote
     -- if true -> the vote is a downvote
-=======
->>>>>>> 39b89d41f86557b7d8a4eff668845d3ad371fc54
 
 CREATE TABLE flags (
     flag_id SERIAL PRIMARY KEY,
@@ -98,9 +92,6 @@ CREATE TABLE flags (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
 );
-<<<<<<< HEAD
 -- post_type:
     --if false -> the flag is for a description post
     --if true -> the flag is for a review post
-=======
->>>>>>> 39b89d41f86557b7d8a4eff668845d3ad371fc54
