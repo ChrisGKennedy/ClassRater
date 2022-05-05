@@ -2,11 +2,15 @@ import React, { Fragment, useEffect, useState } from "react";
 
 import BanUser from "./BanUser";
 
+// This is the component that is used on the ban page.
+// This component contains the table with the information about every user.
+// It contains a button in each row of the table that toggles the ban status for that user.
+
 const ListUsers = () => {
 
     const [users, setUsers] = useState([]);
 
-    //get users
+    //get all of the current users
     const getUsers = async () => {
         try{
             const response = await fetch("http://localhost:5000/users");
@@ -22,6 +26,9 @@ const ListUsers = () => {
         getUsers();
     }, []);
 
+    // This returns the table with the various components of a user such as
+    // ID, email, and ban status, and the button to toggle that user's ban status.
+
     return <Fragment>
         {" "}
         <table className="table mt-5 text-center">
@@ -34,13 +41,28 @@ const ListUsers = () => {
             </tr>
           </thead>
           <tbody>
+            {/*
+              We take each user and split it up into the various components.
+            */}
             {users.map(user => (
                 <tr key={user.user_id}>
                     <td>{user.user_id}</td>
                     <td>{user.email}</td>
-                    <td>{(user.banned) ? "Banned":"Unbanned"}</td>
                     <td>
-                        <BanUser user = {user}/>
+                      {/*
+                        We have TRUE indicate that a user is banned
+                        and FALSE indicate that a user is not banned, and
+                        use the ? operator to determine what we want to appear on
+                        the page given the user's current status.
+                      */}
+                      {(user.banned) ? "Banned":"Unbanned"}
+                    </td>
+                    <td>
+                      {/*
+                        This is the component that contains the button that
+                        toggles the ban status for a given user. See BanUser.js
+                      */}
+                      <BanUser user = {user}/>
                     </td>
                 </tr>
             ))}

@@ -1,10 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 
-
+// This component is a button that opens the window that displays
+// the post body for the given post. Note that this compenent is different
+// from PostModal as PostModal takes a report/flag, while PostModalPM
+// takes a post.
 const PostModalPM = ( { p } ) => {
 
     const [bd, setBD] = useState(p.post_body);
 
+    // Returns the button that toggles the modal (which is the window)
+    // that contains the text of the post body.
     return(
       <Fragment>
         <button 
@@ -29,7 +34,10 @@ const PostModalPM = ( { p } ) => {
               </div>
 
               <div className = "modal-body">
-                  <p>{bd}</p>
+                {/*
+                  This simply gives the body text, as bd contains the info of p.post_body
+                */}
+                <p>{bd}</p>
               </div>
 
               <div className="modal-footer">

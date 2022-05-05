@@ -1,13 +1,19 @@
 import React, { Fragment, useState } from "react";
 
+
+// This code is for the button that toggles the ban status for given user
+// This button is used on the reports page.
+
 const BanUser = ({ user }) => {
     
     const [users, setUsers] = useState(user.banned);
     
     // This simply updates the ban status
-    // Ban is boolean value, so this function simply inverts it
+    // Ban is boolean value, so this function simply inverts it.
     // Takes the info from the given user and puts a new user with the same id
-    // and simply updates the ban status
+    // and simply updates the ban status. If the user is banned, then they become unbanned.
+    // If the user is not banned, then they become banned.
+
     const updateStatusBanned = async e => {
         e.preventDefault();
         try{
@@ -26,8 +32,8 @@ const BanUser = ({ user }) => {
         }
     }
 
-    // Returns the button that uses this update status
-    // The button just updates the ban status onClick
+    // Returns the button that uses this update status.
+    // The button just updates the ban status upon clicking the button.
 
     return <Fragment>
         <button 
