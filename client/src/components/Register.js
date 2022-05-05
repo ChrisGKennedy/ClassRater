@@ -1,5 +1,6 @@
 import React, { Fragment,useState } from "react";
 
+// users can register an email and paswword
 const Register = ({ setAuth }) => {
 
     const [inputs, setInputs] = useState({
@@ -8,11 +9,13 @@ const Register = ({ setAuth }) => {
     });
 
     const {email, password} = inputs;
-
+    
+    // allows for text typed into form to render in real time
     const onChange = e => {
         setInputs({...inputs, [e.target.name]:e.target.value});
     };
 
+    // uses the database to regiter a user based on information put into the forms
     const onSubmitForm = async(e) => {
         e.preventDefault();
 
@@ -36,6 +39,7 @@ const Register = ({ setAuth }) => {
         }
     };
 
+    // renders a text input form to give an email and password, and a button to submit form
     return(
         <Fragment>
             <h1 className="text-center my-5">Register</h1>

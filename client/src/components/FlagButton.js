@@ -1,10 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
 
+// allows logged in user to flag and unflag a post
 const FlagButton = ( {post_id, type} ) => {
     const [user, setUser] = useState([]);
     const [flag, setFlag] = useState([]);
     const [isFlag, setIsFlag] =useState(false);
 
+    // gets info for currently logged in user and checks if they have flagged the post
     const getUserInfo = async() => {
         try {
             const respone = await fetch("http://localhost:5000/dashboard", {
@@ -21,11 +23,12 @@ const FlagButton = ( {post_id, type} ) => {
                 method: "GET"
             });
             try {
+                // if a flag for the post exists
                 const flagInfo = await fetchFlag.json();
                 setFlag(flagInfo);
                 setIsFlag(true);
             } catch (err2) {
-                console.log("no flag");
+                // if a flag for the post doesn't exist
                 setIsFlag(false);
             }
         } catch (err) {
@@ -33,6 +36,7 @@ const FlagButton = ( {post_id, type} ) => {
         }
     }
 
+    // creates a flag
     const makeFlag = async() => {
         try {
             const newFlag = await fetch("http://localhost:5000/flags", {
@@ -49,6 +53,7 @@ const FlagButton = ( {post_id, type} ) => {
         }
     }
 
+    // delets a flag
     const unflag = async() => {
         try {
             const deleteFlag = await fetch(`http://localhost:5000/flags/${flag.flag_id}`, {
@@ -66,6 +71,8 @@ const FlagButton = ( {post_id, type} ) => {
         getUserInfo();
     }, [isFlag]);
     
+    // renders a flag button if the logged in user has not flagged the post
+    // renders unflag button (labeled flagged) if user has flagged a post
     return (
         <Fragment>
             { !isFlag ? 

@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 
+// a user can upvote and downvote a post
 const Voting = ({ post_id, code, type, setPosts }) => {
     const [user, setUser] = useState([]);
     const [vote, setVote] = useState([]);
@@ -7,6 +8,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
     const [isUp, setIsUp] = useState(false);
     const [isDown, setIsDown] = useState(false);
 
+    // gets user data and vote if a vote already exists
     const getUserInfo = async() => {
         try {
             const respone = await fetch("http://localhost:5000/dashboard", {
@@ -21,14 +23,17 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 method: "GET"
             });
             try {
+                // if a vote exists
                 const voteInfo = await fetchVote.json();
                 setVote(voteInfo);
                 console.log(voteInfo);
                 if(!voteInfo.vote){
+                    // if the existing vote is an upvote
                     setIsUp(true);
                     setIsDown(false);
                 }
                 else{
+                    // if the existing vote is a downvote
                     setIsUp(false);
                     setIsDown(true);
                 }
@@ -40,30 +45,38 @@ const Voting = ({ post_id, code, type, setPosts }) => {
         }
     }
 
+    // upvotes a post
     const upVote = async() => {
         try {
             const oldVote = await fetch(`http://localhost:5000/votes/${post_id}/${user.user_id}`);
             try {
+                // if a post is already voted get the vote
                 const oldVoteInfo = await oldVote.json();
                 console.log(oldVoteInfo.vote);
 
                 if(!oldVoteInfo.vote){
+                    // if the existing vote is an upvote
+                    // shouldn't really ever happen
+                    // don't crucify me for this
                     const newVote = await fetch("http://localhost:5000/votes", {
                         method: "POST",
                         headers: {"Content-Type":"application/json"},
                         body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": false})
                     });
 
+                    // update vote states
                     const voteInfo = newVote.json();
                     setVote(voteInfo);
                     setIsUp(true);
                     setIsDown(false);
 
-                    const updatePost = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
+                    // increment rating of the post by 1
+                    const updateRating = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
+                    // updates posts to display since we updated the rating
                     if(!type){
                         const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                             method: "GET"
@@ -82,6 +95,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
 
                 }
                 else{
+                    // if the existing vote is a down vote, update the vote to be an upvote
                     const editVote = await fetch(`http://localhost:5000/votes/${oldVoteInfo.vote_id}`, {
                         method: "PUT",
                         headers: {"Content-Type":"application/json"},
@@ -92,16 +106,19 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                         method: "GET"
                     });
                     
+                    // update vote state
                     const voteInfo = newVote.json();
                     setVote(voteInfo);
                     setIsUp(true);
                     setIsDown(false);
 
-                    const updatePost = await fetch(`http://localhost:5000/posts/increment2/${post_id}`, {
+                    // increment rating by 2 since we're changing a downvote to an upvote
+                    const updateRating = await fetch(`http://localhost:5000/posts/increment2/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
+                    // updates posts to display since we updated the rating
                     if(!type){
                         const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                             method: "GET"
@@ -120,6 +137,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 }
                 
             } catch (err2) {
+                // if there is no vote previously made, create a new one
                 const newVote = await fetch("http://localhost:5000/votes", {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
@@ -131,11 +149,13 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 setIsUp(true);
                 setIsDown(false);
 
-                const updatePost = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
+                // increment rating of the post by 1
+                const updateRating = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"}
                 });
 
+                // updates posts to display since we updated the rating
                 if(!type){
                     const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                         method: "GET"
@@ -158,9 +178,10 @@ const Voting = ({ post_id, code, type, setPosts }) => {
         }
     }
 
+    // deletes an upvote
     const unUpVote = async() => {
         try {
-            const deleteFlag = await fetch(`http://localhost:5000/votes/${vote.vote_id}`, {
+            const deleteVote = await fetch(`http://localhost:5000/votes/${vote.vote_id}`, {
                 method: "DELETE"
             });
 
@@ -168,11 +189,13 @@ const Voting = ({ post_id, code, type, setPosts }) => {
             setIsUp(false);
             setIsDown(false);
 
-            const updatePost = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
+            // decrement rating of post by 1
+            const updateRating = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"}
             });
 
+            // updates posts to display since we updated the rating
             if(!type){
                 const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                     method: "GET"
@@ -193,30 +216,38 @@ const Voting = ({ post_id, code, type, setPosts }) => {
         }
     }
 
+    // downvotes a post
     const downVote = async() => {
         try {
             const oldVote = await fetch(`http://localhost:5000/votes/${post_id}/${user.user_id}`);
             try {
+                // if a vote already exists get it here
                 const oldVoteInfo = await oldVote.json();
                 console.log(oldVoteInfo.vote);
 
                 if(oldVoteInfo.vote){
+                    // if the existing vote is a downvote
+                    // shouldn't ever happen
+                    // don't crucify me for this
                     const newVote = await fetch("http://localhost:5000/votes", {
                         method: "POST",
                         headers: {"Content-Type":"application/json"},
                         body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": true})
                     });
 
+                    // update vote states
                     const voteInfo = newVote.json();
                     setVote(voteInfo);
                     setIsUp(false);
                     setIsDown(true);
 
-                    const updatePost = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
+                    // decrement rating of post by 1
+                    const updateRating = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
+                    // updates posts to display since we updated the rating
                     if(!type){
                         const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                             method: "GET"
@@ -234,6 +265,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     }
                 }
                 else{
+                    // if existing vote is an upvote
                     const editVote = await fetch(`http://localhost:5000/votes/${oldVoteInfo.vote_id}`, {
                         method: "PUT",
                         headers: {"Content-Type":"application/json"},
@@ -244,16 +276,19 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                         method: "GET"
                     });
                     
+                    // update vote state
                     const voteInfo = newVote.json();
                     setVote(voteInfo);
                     setIsUp(false);
                     setIsDown(true);
 
-                    const updatePost = await fetch(`http://localhost:5000/posts/decrement2/${post_id}`, {
+                    // decrement rating of post by 2 sincer we're changing an upvote to a downvote
+                    const updateRating = await fetch(`http://localhost:5000/posts/decrement2/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
+                    // updates posts to display since we updated the rating
                     if(!type){
                         const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                             method: "GET"
@@ -272,22 +307,26 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 }
                 
             } catch (err2) {
+                // if no vote exists create a new vote
                 const newVote = await fetch("http://localhost:5000/votes", {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
                     body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": true})
                 });
 
+                // update vote states
                 const voteInfo = newVote.json();
                 setVote(voteInfo);
                 setIsUp(false);
                 setIsDown(true);
 
-                const updatePost = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
+                // decrement rating of post by 1
+                const updateRating = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"}
                 });
 
+                // updates posts to display since we updated the rating
                 if(!type){
                     const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                         method: "GET"
@@ -310,21 +349,25 @@ const Voting = ({ post_id, code, type, setPosts }) => {
         }
     }
 
+    // delete vote if already downvoted
     const unDownVote = async() => {
         try {
-            const deleteFlag = await fetch(`http://localhost:5000/votes/${vote.vote_id}`, {
+            const deleteVote = await fetch(`http://localhost:5000/votes/${vote.vote_id}`, {
                 method: "DELETE"
             });
 
+            // update vote states
             setVote([]);
             setIsUp(false);
             setIsDown(false);
 
-            const updatePost = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
+            // increment rating of post by 1 since we're deleting a downvote
+            const updateRating = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"}
             });
 
+            // update posts to display since we updated rating
             if(!type){
                 const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
                     method: "GET"
@@ -349,6 +392,8 @@ const Voting = ({ post_id, code, type, setPosts }) => {
         getUserInfo();
     }, [isUp, isDown]);
 
+    // render upvote button if a post is not upvoted and render un-upvote button if post is upvoted
+    // render downvote button if a post is not downvoted and render un-downvote button if post is downvoted
     return(
         <Fragment>
             {!isUp ? 

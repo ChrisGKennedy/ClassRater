@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState, Component } from "react";
 
-//var testcode = "ART-4252"
-
+// displays the course code, course name, and course discription based on the course code passed in
 const CourseText = ({code}) => {
     const [course, setCourse] = useState([]);
 
+    // fetches course data from the database using the course code
     const getCourse = async (target) => {
         try {
             const response = await fetch(`http://localhost:5000/courses/code${target}`,{
@@ -24,6 +24,7 @@ const CourseText = ({code}) => {
 
     console.log(course);
 
+    // renders the course code, course name, and course description
     return (
         <Fragment>
             <h1>{course.code}</h1>

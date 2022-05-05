@@ -1,3 +1,5 @@
+// checks if required credentials are inputted and if email is valid
+// should never be used alone (and probably cannot be)
 module.exports = function(req, res, next) {
     const { email, password } = req.body;
   

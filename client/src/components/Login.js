@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 
+// allows users to login with registered email and password
 const Login = ({setAuth}) => {
 
     const [inputs, setinputs] = useState({
@@ -9,10 +10,12 @@ const Login = ({setAuth}) => {
 
     const {email, password} = inputs;
 
+    // allows for text typed into form to render in real time
     const onChange = e => {
         setinputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
+    // uses the database to login a user based on information put into the forms
     const onSubmitForm = async(e) => {
         e.preventDefault();
 

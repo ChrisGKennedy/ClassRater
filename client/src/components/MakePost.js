@@ -1,11 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react";
 
+// logged in users can make a description post or review post based on the type of post is rendered
 const MakePost = ({course_code, type, auth}) => {
 
     const [post, setPost] = useState("")
     const [prof, setProf] = useState("")
     const [user, setUser] = useState([])
 
+    // creates post, taking information from passed in values from other components or information on input form
     const onSubmitForm = async e => {
         e.preventDefault();
         try {
@@ -21,6 +23,7 @@ const MakePost = ({course_code, type, auth}) => {
         }
     }
 
+    // gets user information for currently logged in users
     const getUserInfo = async() => {
         try {
             const respone = await fetch("http://localhost:5000/dashboard", {
@@ -39,6 +42,7 @@ const MakePost = ({course_code, type, auth}) => {
         getUserInfo()
     }, []);
 
+    // renders text inputs form for a professor name and the post body and a button to submit the form.
     return (
         <Fragment>
             <form className="mt-5" onSubmit={onSubmitForm}>

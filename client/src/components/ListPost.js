@@ -5,11 +5,12 @@ import Voting from "./Voting";
 
 import MakePost from "./MakePost";
 
+// renders any posts that is associated to the course code passed in
 const ListPosts = ({code, auth}) => {
     const [posts, setPosts] = useState([]);
     const [type, setType] = useState(false);
 
-
+    // fetches all posts related to the course code
     const getPosts = async(target) => {
         try {
                 if(!type){
@@ -33,10 +34,12 @@ const ListPosts = ({code, auth}) => {
         }
     }
 
+    // switches type of posts to display
     const showDesc = () => {
         setType(false);
     }
 
+    // switches type of posts to display
     const showReview = () => {
         setType(true);
     }
@@ -45,6 +48,15 @@ const ListPosts = ({code, auth}) => {
         getPosts(code);
     }, [type, posts]);
 
+    // renders two buttons labeled "Description" and "Reviews" to switch between the type of posts to be displayed
+    // renders a table of posts associated to the current course
+    // if not logged in:
+        // renders a table with professor, post body, and rating
+    //if logged in:
+        // renders a table with professor, post body, and rating
+        // each post has a flag/unflag button, upvote/unupvote button, and downvote/undownvote button with it
+        // code for the flag button is found in the file "FlagButton.js"
+        // code for the vote buttons is found in the file "Voting.js"
     return(
         <Fragment>
             <button className="btn btn-warning" onClick={showDesc}>

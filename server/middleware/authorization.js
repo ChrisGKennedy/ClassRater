@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-
+// checks if token inputted in the header is valid
+// should never be used alone (and probably cannot be)
 module.exports = async(req, res, next) => {
     try {
         

@@ -6,12 +6,14 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
+// functions related to authentication is in file named "jwtAuth" under the folder "routes"
 app.use("/auth", require("./routes/jwtAuth"));
 
 app.listen(5000, () => {
     console.log("server has started on port 5000");
 });
 
+// searches for courses based on key word passed to it
 app.get("/search:query", async (req, res) =>  {
 	try {
 			const {query} = req.params;
@@ -27,6 +29,7 @@ app.get("/search:query", async (req, res) =>  {
 	}
 });
 
+// gets a list of all users registered
 app.get("/users", async(req, res) => {
     try{
         const allUsers = await pool.query("SELECT * FROM users");
@@ -36,6 +39,7 @@ app.get("/users", async(req, res) => {
     }
 });
 
+// gets a list of all courses in the database
 app.get("/courses", async (req, res) => {
     try {
         const allCourses = await pool.query("SELECT * FROM courses");
@@ -45,6 +49,8 @@ app.get("/courses", async (req, res) => {
     }
 });
 
+// gets a course that matches the course code entered
+// course codes are unique so there should only be one
 app.get("/courses/code:code", async (req, res) => {
     try {
         const { code } = req.params;
@@ -58,6 +64,8 @@ app.get("/courses/code:code", async (req, res) => {
     }
 });
 
+// gets a course that matches the course name entered
+// course names are potentially not unique and therefore this can return multiple items
 app.get("/courses/course_name:name", async (req, res) => {
     try {
         const { name } = req.params;
@@ -71,22 +79,23 @@ app.get("/courses/course_name:name", async (req, res) => {
     }
 });
 
+// creates a post
+// posts must have some text(post_body), some course code(course_code), a user id(user_id), and a post type(post_type)
+// professor for a post is optional
+// the type for each input can be found under "CREATE TABLE posts" in the "server" folder in the file "database.sql"
 app.post("/posts", async(req, res) => {
     try {
-        //const desc = req.body.desc_body;
-        //const code = req.body.code;
         const newPost = await pool.query("INSERT INTO posts (post_body,code,rating,user_id,post_type,professor) VALUES ($1,$2,0,$3,$4,$5) RETURNING *", 
             [req.body.post_body, req.body.code, req.body.user_id, req.body.post_type, req.body.professor]);
 
         res.json(newPost.rows[0]);
-        //res.json();
         console.log(req.body);
-        //console.log(desc);
     } catch (err) {
         console.error(err.message)
     }
 });
 
+// gets every post related to every course
 app.get("/posts", async(req, res) => {
     try {
         const allDescs = await pool.query("SELECT * FROM posts");
@@ -96,6 +105,8 @@ app.get("/posts", async(req, res) => {
     }
 });
 
+// get a post based on the id entered
+// post_id are unique
 app.get("/posts/:id", async(req, res) => {
     try {
         const response = await pool.query("SELECT * FROM posts WHERE post_id = $1",
@@ -107,6 +118,7 @@ app.get("/posts/:id", async(req, res) => {
     }
 })
 
+// get all description posts for a given course code
 app.get("/posts/descriptions/code:code", async (req, res) => {
     try {
         const { code } = req.params;
@@ -118,6 +130,7 @@ app.get("/posts/descriptions/code:code", async (req, res) => {
     }
 });
 
+// get all review posts for a given course code
 app.get("/posts/reviews/code:code", async (req, res) => {
     try {
         const { code } = req.params;
@@ -129,6 +142,7 @@ app.get("/posts/reviews/code:code", async (req, res) => {
     }
 });
 
+// deletes the post with the specified post id
 app.delete("/posts/:id", async(req, res) => {
     try {
         const id = req.params.id;
@@ -140,6 +154,8 @@ app.delete("/posts/:id", async(req, res) => {
     }
 });
 
+// updates the rating to any specified integer for a post specified by the id
+// this route is not currently used in the client side, but can be useful if the rating of a post is not correctly updated
 app.put("/posts/:id", async(req, res) => {
     try {
         const id = req.params.id;
@@ -152,6 +168,7 @@ app.put("/posts/:id", async(req, res) => {
     }
 });
 
+// increases the rating of a post by 1
 app.put("/posts/increment/:id", async(req, res) => {
     try {
         const updaterating = await pool.query("UPDATE posts SET rating = rating + 1 WHERE post_id = $1",
@@ -163,6 +180,7 @@ app.put("/posts/increment/:id", async(req, res) => {
     }
 });
 
+// decreases the rating of a post by 1
 app.put("/posts/decrement/:id", async(req, res) => {
     try {
         const updaterating = await pool.query("UPDATE posts SET rating = rating - 1 WHERE post_id = $1",
@@ -174,6 +192,7 @@ app.put("/posts/decrement/:id", async(req, res) => {
     }
 });
 
+// increases the rating of a post by 2
 app.put("/posts/increment2/:id", async(req, res) => {
     try {
         const updaterating = await pool.query("UPDATE posts SET rating = rating + 2 WHERE post_id = $1",
@@ -185,6 +204,7 @@ app.put("/posts/increment2/:id", async(req, res) => {
     }
 });
 
+// decreases the rating of a post by 2
 app.put("/posts/decrement2/:id", async(req, res) => {
     try {
         const updaterating = await pool.query("UPDATE posts SET rating = rating - 2 WHERE post_id = $1",
@@ -196,8 +216,13 @@ app.put("/posts/decrement2/:id", async(req, res) => {
     }
 });
 
+// gets user information for the currently logged in user
+// code is under the file "dashboard" under the folder "routes"
 app.use("/dashboard", require("./routes/dashboard"));
 
+// creates a flag
+// flags must have a user id, a post id, a post type
+// the type for each input can be found under "CREATE TABLE flags" in the "server" folder in the file "database.sql"
 app.post("/flags", async(req, res) => {
     try {
         const newFlag = await pool.query("INSERT INTO flags (user_id,post_id,post_type) VALUES ($1,$2,$3) RETURNING *", 
@@ -210,6 +235,7 @@ app.post("/flags", async(req, res) => {
     }
 });
 
+// gets all flags
 app.get("/flags", async(req, res) => {
     try {
         const response = await pool.query("SELECT * FROM flags");
@@ -220,6 +246,8 @@ app.get("/flags", async(req, res) => {
     }
 });
 
+// gets flags with the specified post id and user id
+// the combination of the two id should be unique
 app.get("/flags/:post_id/:user_id", async(req,res) => {
     try {
         const response = await pool.query("SELECT * FROM flags WHERE post_id = $1 AND user_id = $2", 
@@ -231,6 +259,7 @@ app.get("/flags/:post_id/:user_id", async(req,res) => {
     }
 });
 
+// deletes the flag with the specified id
 app.delete("/flags/:flag_id", async(req,res) => {
     try {
         const id = req.params.flag_id;
@@ -241,6 +270,10 @@ app.delete("/flags/:flag_id", async(req,res) => {
         console.error(err.message);
     }
 });
+
+// creates a vote
+// votes must have a user id, a post id, and a vote type(vote)
+// the type for each input can be found under "CREATE TABLE votes" in the "server" folder in the file "database.sql"
 
 app.post("/votes", async(req, res) => {
     try {
@@ -254,6 +287,7 @@ app.post("/votes", async(req, res) => {
     }
 });
 
+// gets all votes
 app.get("/votes", async(req, res) => {
     try {
         const response = await pool.query("SELECT * FROM votes");
@@ -264,6 +298,7 @@ app.get("/votes", async(req, res) => {
     }
 });
 
+// gets vote with the specified id
 app.get("/votes/:id", async(req, res) => {
     try {
         const response = await pool.query("SELECT * FROM votes WHERE vote_id = $1", 
@@ -275,6 +310,8 @@ app.get("/votes/:id", async(req, res) => {
     }
 });
 
+// gets vote with the specified post id and user id
+// combination of the two id should be unique
 app.get("/votes/:post_id/:user_id", async(req,res) => {
     try {
         const response = await pool.query("SELECT * FROM votes WHERE post_id = $1 AND user_id = $2", 
@@ -286,6 +323,7 @@ app.get("/votes/:post_id/:user_id", async(req,res) => {
     }
 });
 
+// updates vote type(vote) to specified boolean value
 app.put("/votes/:id", async(req, res) => {
     try {
         const response = await pool.query("UPDATE votes SET vote = $1 WHERE vote_id = $2",
@@ -297,6 +335,7 @@ app.put("/votes/:id", async(req, res) => {
     }
 });
 
+// deletes vote with the specified id
 app.delete("/votes/:id", async(req, res) => {
     try {
         const response = await pool.query("DELETE FROM votes WHERE vote_id = $1", 
@@ -308,6 +347,7 @@ app.delete("/votes/:id", async(req, res) => {
     }
 });
 
+// updates a user's ban flag
 app.put("/users/:id", async(req, res) => {
     try{
         const { id } = req.params;
@@ -319,21 +359,6 @@ app.put("/users/:id", async(req, res) => {
 
         res.json("User was updated!");
     }catch (err){
-        console.error(err.message);
-    }
-});
-
-app.post("/users", async(req, res) => {
-    try{
-        const { email } = req.body.email;
-        const { password } = req.body.password;
-        const newUser = await pool.query(
-            "INSERT INTO users (email, password, banned) VALUES($1, $2, false) RETURNING *", 
-            [email, password]
-        );
-
-        res.json(newUser.rows[0]);
-    }catch(err){
         console.error(err.message);
     }
 });
