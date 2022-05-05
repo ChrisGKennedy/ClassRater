@@ -1,26 +1,25 @@
 import React, { Fragment, useState } from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
+// We have the destructuring { } or else it won't work.
 function SearchBar({ callback }) {
 
-	// const [searchParams, setSearchParams] = useSearchParams("");
+	// This is the function that runs when the search button/enter is pressed
+	// It calls the callback that is passed in above.
 	const [searchParams, setSearchParams] = useState("");
-	// const navigate = useNavigate();
-
 	const submitSearchForm = e => {
 		e.preventDefault();
-		// setSearchParams(e.target.value);
 		callback(searchParams);
-		// navigate("/search?q=" + searchParams);
 		console.log("submitted searchParams = " + searchParams);
 	};
 
 	return (
 		<Fragment>
+			{/* Pass in the onSubmit submitSearchForm defined above */}
 			<form className="d-flex" onSubmit={submitSearchForm}>
 				<input
 					type="text"
 					className="form-control"
+					// The value of the textbox is the search term.
 					value={searchParams}
 					onChange={e => setSearchParams(e.target.value)}
 				/>

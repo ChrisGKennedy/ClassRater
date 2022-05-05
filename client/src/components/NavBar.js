@@ -2,6 +2,10 @@ import React, { Fragment } from "react";
 import { Link } from 'react-router-dom';
 import SearchBar from "./SearchBar";
 
+// The NavBar is similar in functionality to the home page, but is a separate component
+// which is used at the top of every page. 
+// We are passing in a searchCallback because the SearchBar is contained within the NavBar
+// It has to be destructured with { } or it won't work.
 const NavBar = ({ searchCallback }) => {
 	return (
 		<Fragment>
