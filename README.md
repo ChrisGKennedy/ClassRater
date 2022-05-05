@@ -14,7 +14,7 @@ ClassRater - a platform that is the mix between ratemyprofessor.com and the Trin
 
 ## A tour of our codebase
 
-/server - all of the backend code and middleware, including the database, REST API routes, and user authentication.
+/server - all of the backend code and middleware, including the database, REST API routes, and user authentication.  
 /client - all of the front-end code that makes stuff actually appear on the page and interact with the backend.
 
 ## How to make it work
