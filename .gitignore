@@ -1,0 +1,3 @@
+nodemodules/**
+client/nodemodules/**
+server/nodemodules/**

@@ -1,10 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 
+// This component is a button that opens the window that displays
+// the post body for the given report. Note that this compenent is different
+// from PostModalPM as PostModalPM takes a post, while PostModal
+// takes a report/flag.
 
 const PostModal = ( { r } ) => {
 
     const [post, setPost] = useState([]);
 
+    // gets the flagged post (indicated by the report's post_id)
     const getPost = async () => {
         try{
             const response = await fetch(`http://localhost:5000/posts/${r.post_id}`, {
@@ -22,6 +27,8 @@ const PostModal = ( { r } ) => {
         getPost();
     });
 
+    // Returns the button that toggles the modal (which is the window)
+    // that contains the text of the post body.
     return(
       <Fragment>
         <button 
@@ -46,6 +53,9 @@ const PostModal = ( { r } ) => {
               </div>
 
               <div className = "modal-body">
+                {/*
+                  gets the post body text from the post
+                */}
                   {post.post_body}
               </div>
 
