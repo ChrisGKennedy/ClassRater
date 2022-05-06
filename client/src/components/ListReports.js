@@ -9,7 +9,7 @@ const ListReports = () => {
     // deletes the flag for the given ID
     const deleteReport = async id => {
         try{
-            const deleteReport = await fetch(`https://classrater.herokuapp.com/flags/${id}`, {
+            const deleteReport = await fetch(`https://classraterserver.herokuapp.com/flags/${id}`, {
                 method: "DELETE"
             });
 
@@ -23,7 +23,7 @@ const ListReports = () => {
     //gets all of the  current reports
     const getReports = async () => {
         try{
-            const response = await fetch("https://classrater.herokuapp.com/flags");
+            const response = await fetch("https://classraterserver.herokuapp.com/flags");
             const jsonData = await response.json();
 
             setReports(jsonData);

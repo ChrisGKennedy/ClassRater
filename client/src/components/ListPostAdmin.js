@@ -16,7 +16,7 @@ const ListPostAdmin = () => {
     // deletes the post with the given ID
     const deletePost = async id => {
         try{
-            const deletePost = await fetch(`https://classrater.herokuapp.com/posts/${id}`, {
+            const deletePost = await fetch(`https://classraterserver.herokuapp.com/posts/${id}`, {
                 method: "DELETE"
             });
 
@@ -30,7 +30,7 @@ const ListPostAdmin = () => {
     // gets all of the current posts
     const getPosts = async () => {
         try{
-            const response = await fetch("https://classrater.herokuapp.com/posts");
+            const response = await fetch("https://classraterserver.herokuapp.com/posts");
             const jsonData = await response.json();
 
             setPosts(jsonData);

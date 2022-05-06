@@ -12,7 +12,7 @@ const MakePost = ({course_code, type, auth}) => {
         e.preventDefault();
         try {
 
-            const response = await fetch("https://classrater.herokuapp.com/posts", {
+            const response = await fetch("https://classraterserver.herokuapp.com/posts", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({"post_body":post, "code":course_code, "post_type": type, "user_id": user.user_id, "professor": prof})
@@ -26,7 +26,7 @@ const MakePost = ({course_code, type, auth}) => {
     // gets user information for currently logged in users
     const getUserInfo = async() => {
         try {
-            const respone = await fetch("https://classrater.herokuapp.com/dashboard", {
+            const respone = await fetch("https://classraterserver.herokuapp.com/dashboard", {
                 method: "GET",
                 headers: {token : localStorage.token}
             });

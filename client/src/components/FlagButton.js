@@ -9,7 +9,7 @@ const FlagButton = ( {post_id, type} ) => {
     // gets info for currently logged in user and checks if they have flagged the post
     const getUserInfo = async() => {
         try {
-            const respone = await fetch("https://classrater.herokuapp.com/dashboard", {
+            const respone = await fetch("https://classraterserver.herokuapp.com/dashboard", {
                 method: "GET",
                 headers: {token : localStorage.token}
             });
@@ -19,7 +19,7 @@ const FlagButton = ( {post_id, type} ) => {
             
             setUser(userData);
 
-            const fetchFlag = await fetch(`https://classrater.herokuapp.com/flags/${post_id}/${userData.user_id}`, {
+            const fetchFlag = await fetch(`https://classraterserver.herokuapp.com/flags/${post_id}/${userData.user_id}`, {
                 method: "GET"
             });
             try {
@@ -39,7 +39,7 @@ const FlagButton = ( {post_id, type} ) => {
     // creates a flag
     const makeFlag = async() => {
         try {
-            const newFlag = await fetch("https://classrater.herokuapp.com/flags", {
+            const newFlag = await fetch("https://classraterserver.herokuapp.com/flags", {
                 method: "POST",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "post_type": type})
@@ -56,7 +56,7 @@ const FlagButton = ( {post_id, type} ) => {
     // delets a flag
     const unflag = async() => {
         try {
-            const deleteFlag = await fetch(`https://classrater.herokuapp.com/flags/${flag.flag_id}`, {
+            const deleteFlag = await fetch(`https://classraterserver.herokuapp.com/flags/${flag.flag_id}`, {
                 method: "DELETE"
             });
 
