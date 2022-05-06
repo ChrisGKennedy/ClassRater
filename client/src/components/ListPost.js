@@ -46,7 +46,7 @@ const ListPosts = ({code, auth}) => {
 
     useEffect(() => {
         getPosts(code);
-    }, [type]);
+    }, [type, posts]);
 
     // renders two buttons labeled "Description" and "Reviews" to switch between the type of posts to be displayed
     // renders a table of posts associated to the current course
