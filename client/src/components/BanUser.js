@@ -17,7 +17,7 @@ const BanUser = ({ user }) => {
     const updateStatusBanned = async e => {
         e.preventDefault();
         try{
-            const response = await fetch(`http://localhost:5000/users/${user.user_id}`, {
+            const response = await fetch(`https://classrater.herokuapp.com/users/${user.user_id}`, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({"user_id":user.user_id, 

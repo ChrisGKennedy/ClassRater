@@ -14,7 +14,7 @@ const ListPosts = ({code, auth}) => {
     const getPosts = async(target) => {
         try {
                 if(!type){
-                    const response = await fetch(`http://localhost:5000/posts/descriptions/code${target}`, {
+                    const response = await fetch(`https://classraterserver.herokuapp.com/code${target}`, {
                         method: "GET"
                     });
 
@@ -22,7 +22,7 @@ const ListPosts = ({code, auth}) => {
                     setPosts(jsonData);
                 }
                 else{
-                    const response = await fetch(`http://localhost:5000/posts/reviews/code${target}`, {
+                    const response = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${target}`, {
                         method: "GET"
                     });
 

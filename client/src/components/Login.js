@@ -21,7 +21,7 @@ const Login = ({setAuth}) => {
         const body = {email, password};
         try {
             
-            const response = await fetch("http://localhost:5000/auth/login", {
+            const response = await fetch("https://classrater.herokuapp.com/auth/login", {
                 method: "POST",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify(body)
