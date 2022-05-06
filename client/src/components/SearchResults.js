@@ -45,7 +45,7 @@ const SearchResults = () => {
                 //Activate route
               const response = await fetch(
                     //url to the database or endpoint !!FILL IN!!
-                    `http://classraterserver.herokuapp.com/search${query}`
+                    `https://classraterserver.herokuapp.com/search${query}`
                 );
                 //set res to the result of the search
                 const jsonData = await response.json();
