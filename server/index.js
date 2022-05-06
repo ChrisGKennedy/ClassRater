@@ -4,7 +4,11 @@ const cors = require("cors");
 const pool = require("./db");
 const port = process.env.PORT || 5000
 
-app.use(cors());
+const corsOptions = {
+    origin: ["http://classraterserver.herokuapp.com", 'localhost:5000'],
+    credentials: true
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // functions related to authentication is in file named "jwtAuth" under the folder "routes"
