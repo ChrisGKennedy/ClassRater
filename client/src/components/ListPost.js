@@ -14,7 +14,7 @@ const ListPosts = ({code, auth}) => {
     const getPosts = async(target) => {
         try {
                 if(!type){
-                    const response = await fetch(`https://classraterserver.herokuapp.com/code${target}`, {
+                    const response = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${target}`, {
                         method: "GET"
                     });
 
