@@ -11,7 +11,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
     // gets user data and vote if a vote already exists
     const getUserInfo = async() => {
         try {
-            const respone = await fetch("http://localhost:5000/dashboard", {
+            const respone = await fetch("https://classraterserver.herokuapp.com/dashboard", {
                 method: "GET",
                 headers: {token : localStorage.token}
             });
@@ -19,7 +19,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
             
             setUser(userData);
 
-            const fetchVote = await fetch(`http://localhost:5000/votes/${post_id}/${userData.user_id}`, {
+            const fetchVote = await fetch(`https://classraterserver.herokuapp.com/votes/${post_id}/${userData.user_id}`, {
                 method: "GET"
             });
             try {
@@ -48,7 +48,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
     // upvotes a post
     const upVote = async() => {
         try {
-            const oldVote = await fetch(`http://localhost:5000/votes/${post_id}/${user.user_id}`);
+            const oldVote = await fetch(`https://classraterserver.herokuapp.com/votes/${post_id}/${user.user_id}`);
             try {
                 // if a post is already voted get the vote
                 const oldVoteInfo = await oldVote.json();
@@ -58,7 +58,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     // if the existing vote is an upvote
                     // shouldn't really ever happen
                     // don't crucify me for this
-                    const newVote = await fetch("http://localhost:5000/votes", {
+                    const newVote = await fetch("https://classraterserver.herokuapp.com/votes", {
                         method: "POST",
                         headers: {"Content-Type":"application/json"},
                         body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": false})
@@ -71,14 +71,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     setIsDown(false);
 
                     // increment rating of the post by 1
-                    const updateRating = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
+                    const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/increment/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
                     // updates posts to display since we updated the rating
                     if(!type){
-                        const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                             method: "GET"
                         });
 
@@ -86,7 +86,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                         setPosts(postData);
                     }
                     else{
-                        const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                             method: "GET"
                         });
                         const postData = await updatedPost.json();
@@ -96,13 +96,13 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 }
                 else{
                     // if the existing vote is a down vote, update the vote to be an upvote
-                    const editVote = await fetch(`http://localhost:5000/votes/${oldVoteInfo.vote_id}`, {
+                    const editVote = await fetch(`https://classraterserver.herokuapp.com/votes/${oldVoteInfo.vote_id}`, {
                         method: "PUT",
                         headers: {"Content-Type":"application/json"},
                         body: JSON.stringify({"vote":false})
                     });
 
-                    const newVote = await fetch(`http://localhost:5000/votes/${post_id}/${user.user_id}`, {
+                    const newVote = await fetch(`https://classraterserver.herokuapp.com/votes/${post_id}/${user.user_id}`, {
                         method: "GET"
                     });
                     
@@ -113,14 +113,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     setIsDown(false);
 
                     // increment rating by 2 since we're changing a downvote to an upvote
-                    const updateRating = await fetch(`http://localhost:5000/posts/increment2/${post_id}`, {
+                    const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/increment2/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
                     // updates posts to display since we updated the rating
                     if(!type){
-                        const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                             method: "GET"
                         });
 
@@ -128,7 +128,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                         setPosts(postData);
                     }
                     else{
-                        const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                             method: "GET"
                         });
                         const postData = await updatedPost.json();
@@ -138,7 +138,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 
             } catch (err2) {
                 // if there is no vote previously made, create a new one
-                const newVote = await fetch("http://localhost:5000/votes", {
+                const newVote = await fetch("https://classraterserver.herokuapp.com/votes", {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
                     body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": false})
@@ -150,14 +150,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 setIsDown(false);
 
                 // increment rating of the post by 1
-                const updateRating = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
+                const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/increment/${post_id}`, {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"}
                 });
 
                 // updates posts to display since we updated the rating
                 if(!type){
-                    const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                    const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                         method: "GET"
                     });
 
@@ -165,7 +165,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     setPosts(postData);
                 }
                 else{
-                    const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                    const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                         method: "GET"
                     });
                     const postData = await updatedPost.json();
@@ -181,7 +181,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
     // deletes an upvote
     const unUpVote = async() => {
         try {
-            const deleteVote = await fetch(`http://localhost:5000/votes/${vote.vote_id}`, {
+            const deleteVote = await fetch(`https://classraterserver.herokuapp.com/votes/${vote.vote_id}`, {
                 method: "DELETE"
             });
 
@@ -190,14 +190,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
             setIsDown(false);
 
             // decrement rating of post by 1
-            const updateRating = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
+            const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/decrement/${post_id}`, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"}
             });
 
             // updates posts to display since we updated the rating
             if(!type){
-                const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                     method: "GET"
                 });
 
@@ -205,7 +205,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 setPosts(postData);
             }
             else{
-                const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                     method: "GET"
                 });
                 const postData = await updatedPost.json();
@@ -219,7 +219,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
     // downvotes a post
     const downVote = async() => {
         try {
-            const oldVote = await fetch(`http://localhost:5000/votes/${post_id}/${user.user_id}`);
+            const oldVote = await fetch(`https://classraterserver.herokuapp.com/votes/${post_id}/${user.user_id}`);
             try {
                 // if a vote already exists get it here
                 const oldVoteInfo = await oldVote.json();
@@ -229,7 +229,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     // if the existing vote is a downvote
                     // shouldn't ever happen
                     // don't crucify me for this
-                    const newVote = await fetch("http://localhost:5000/votes", {
+                    const newVote = await fetch("https://classraterserver.herokuapp.com/votes", {
                         method: "POST",
                         headers: {"Content-Type":"application/json"},
                         body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": true})
@@ -242,14 +242,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     setIsDown(true);
 
                     // decrement rating of post by 1
-                    const updateRating = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
+                    const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/decrement/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
                     // updates posts to display since we updated the rating
                     if(!type){
-                        const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                             method: "GET"
                         });
 
@@ -257,7 +257,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                         setPosts(postData);
                     }
                     else{
-                        const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                             method: "GET"
                         });
                         const postData = await updatedPost.json();
@@ -266,13 +266,13 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 }
                 else{
                     // if existing vote is an upvote
-                    const editVote = await fetch(`http://localhost:5000/votes/${oldVoteInfo.vote_id}`, {
+                    const editVote = await fetch(`https://classraterserver.herokuapp.com/votes/${oldVoteInfo.vote_id}`, {
                         method: "PUT",
                         headers: {"Content-Type":"application/json"},
                         body: JSON.stringify({"vote":true})
                     });
 
-                    const newVote = await fetch(`http://localhost:5000/votes/${post_id}/${user.user_id}`, {
+                    const newVote = await fetch(`https://classraterserver.herokuapp.com/votes/${post_id}/${user.user_id}`, {
                         method: "GET"
                     });
                     
@@ -283,14 +283,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     setIsDown(true);
 
                     // decrement rating of post by 2 sincer we're changing an upvote to a downvote
-                    const updateRating = await fetch(`http://localhost:5000/posts/decrement2/${post_id}`, {
+                    const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/decrement2/${post_id}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"}
                     });
 
                     // updates posts to display since we updated the rating
                     if(!type){
-                        const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                             method: "GET"
                         });
 
@@ -298,7 +298,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                         setPosts(postData);
                     }
                     else{
-                        const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                        const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                             method: "GET"
                         });
                         const postData = await updatedPost.json();
@@ -308,7 +308,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 
             } catch (err2) {
                 // if no vote exists create a new vote
-                const newVote = await fetch("http://localhost:5000/votes", {
+                const newVote = await fetch("https://classraterserver.herokuapp.com/votes", {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
                     body: JSON.stringify({"user_id": user.user_id, "post_id": post_id, "vote": true})
@@ -321,14 +321,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 setIsDown(true);
 
                 // decrement rating of post by 1
-                const updateRating = await fetch(`http://localhost:5000/posts/decrement/${post_id}`, {
+                const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/decrement/${post_id}`, {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"}
                 });
 
                 // updates posts to display since we updated the rating
                 if(!type){
-                    const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                    const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                         method: "GET"
                     });
 
@@ -336,7 +336,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                     setPosts(postData);
                 }
                 else{
-                    const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                    const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                         method: "GET"
                     });
                     const postData = await updatedPost.json();
@@ -352,7 +352,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
     // delete vote if already downvoted
     const unDownVote = async() => {
         try {
-            const deleteVote = await fetch(`http://localhost:5000/votes/${vote.vote_id}`, {
+            const deleteVote = await fetch(`https://classraterserver.herokuapp.com/votes/${vote.vote_id}`, {
                 method: "DELETE"
             });
 
@@ -362,14 +362,14 @@ const Voting = ({ post_id, code, type, setPosts }) => {
             setIsDown(false);
 
             // increment rating of post by 1 since we're deleting a downvote
-            const updateRating = await fetch(`http://localhost:5000/posts/increment/${post_id}`, {
+            const updateRating = await fetch(`https://classraterserver.herokuapp.com/posts/increment/${post_id}`, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"}
             });
 
             // update posts to display since we updated rating
             if(!type){
-                const updatedPost = await fetch(`http://localhost:5000/posts/descriptions/code${code}`, {
+                const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/descriptions/code${code}`, {
                     method: "GET"
                 });
 
@@ -377,7 +377,7 @@ const Voting = ({ post_id, code, type, setPosts }) => {
                 setPosts(postData);
             }
             else{
-                const updatedPost = await fetch(`http://localhost:5000/posts/reviews/code${code}`, {
+                const updatedPost = await fetch(`https://classraterserver.herokuapp.com/posts/reviews/code${code}`, {
                     method: "GET"
                 });
                 const postData = await updatedPost.json();

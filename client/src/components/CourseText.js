@@ -7,7 +7,7 @@ const CourseText = ({code}) => {
     // fetches course data from the database using the course code
     const getCourse = async (target) => {
         try {
-            const response = await fetch(`http://localhost:5000/courses/code${target}`,{
+            const response = await fetch(`https://classraterserver.herokuapp.com/courses/code${target}`,{
                 method: "Get"
             });
             const jsonData = await response.json();
