@@ -11,6 +11,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+if(process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+      if (req.header('x-forwarded-proto') !== 'https')
+        res.redirect(`https://${req.header('host')}${req.url}`)
+      else
+        next()
+    })
+  }
+
 // functions related to authentication is in file named "jwtAuth" under the folder "routes"
 app.use("/auth", require("./routes/jwtAuth"));
 
