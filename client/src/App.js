@@ -26,7 +26,7 @@ function App() {
   const isAuth = async() => {
     try {
       
-      const respone = await fetch("http://localhost:5000/auth/isverified", {
+      const respone = await fetch("https://classrater.herokuapp.com/auth/isverified", {
         method: "GET",
         headers: {token : localStorage.token}
       });
