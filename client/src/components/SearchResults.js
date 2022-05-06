@@ -2,6 +2,12 @@ import React, {useEffect, useState} from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import NavBar from "./NavBar";
 
+const corsOptions = {
+    origin: ["http://classraterserver.herokuapp.com", "http://classrater.herokuapp.com"],
+    credentials: true
+}
+app.use(cors(corsOptions));
+
 const SearchResults = () => { 
 
     const [result, setResults] = useState([]);
@@ -45,7 +51,7 @@ const SearchResults = () => {
                 //Activate route
               const response = await fetch(
                     //url to the database or endpoint !!FILL IN!!
-                    `https://classraterserver.herokuapp.com${query}`
+                    `http://classraterserver.herokuapp.com/search${query}`
                 );
                 //set res to the result of the search
                 const jsonData = await response.json();
