@@ -18,9 +18,7 @@ const Login = ({setAuth}) => {
     // uses the database to login a user based on information put into the forms
     const onSubmitForm = async(e) => {
         e.preventDefault();
-
         const body = {email, password};
-
         try {
             
             const response = await fetch("http://localhost:5000/auth/login", {
@@ -28,7 +26,6 @@ const Login = ({setAuth}) => {
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify(body)
             });
-
             const parseRes = await response.json();
 
             localStorage.setItem("token", parseRes.token);
