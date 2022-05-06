@@ -2,12 +2,6 @@ import React, {useEffect, useState} from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import NavBar from "./NavBar";
 
-const corsOptions = {
-    origin: ["http://classraterserver.herokuapp.com", "http://classrater.herokuapp.com"],
-    credentials: true
-}
-app.use(cors(corsOptions));
-
 const SearchResults = () => { 
 
     const [result, setResults] = useState([]);
