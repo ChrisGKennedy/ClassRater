@@ -5,7 +5,7 @@ const pool = require("./db");
 const port = process.env.PORT || 5000
 
 const corsOptions = {
-    origin: ["http://classraterserver.herokuapp.com", 'localhost:5000'],
+    origin: ["http://classraterserver.herokuapp.com", "http://classrater.herokuapp.com"],
     credentials: true
 }
 app.use(cors(corsOptions));
