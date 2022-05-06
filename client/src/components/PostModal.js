@@ -12,7 +12,7 @@ const PostModal = ( { r } ) => {
     // gets the flagged post (indicated by the report's post_id)
     const getPost = async () => {
         try{
-            const response = await fetch(`https://classrater.herokuapp.com/posts/${r.post_id}`, {
+            const response = await fetch(`https://classraterserver.herokuapp.com/posts/${r.post_id}`, {
                 method: "GET"
             });
             const jsonData = await response.json();
